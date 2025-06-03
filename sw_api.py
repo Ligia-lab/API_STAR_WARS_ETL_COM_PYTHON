@@ -40,6 +40,11 @@ class SWExtraction:
                 
             url = data.get('next')
             
+            
+    def to_dataframe(self):
+        return pd.DataFrame(self.results)
+        
+            
         
         
     
