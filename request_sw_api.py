@@ -6,4 +6,6 @@ extract = SWExtraction(api_url=url)
 extract.fetch_data()
 
 for planeta in extract.results:
-    print(planeta['name'], '-', planeta['climate'])
+    print(planeta)
+
+    

@@ -12,9 +12,34 @@ class SWExtraction:
         
         
     def fetch_data(self):
-        response = requests.get(self.api_url, verify=False)
-        if response.status_code == 200:
-            self.results = response.json().get('results', [])
-            print('Dados recebidos')
-        else:
-            raise Exception('Falha ao acessar dados')
+        url = self.api_url
+        
+        while url:
+            response = requests.get(url, verify=False)
+            if response.status_code != 200:
+                raise Exception('Falha ao acessar dados')
+            
+            
+            data = response.json()
+            itens = data.get('results', [])
+            
+            for p in itens:
+                pop = p.get('population', 'unknown')
+                if not pop.isnumeric():
+                    pop_val = None
+                else:
+                    pop_val = int(pop)
+                    
+                planeta_dict = {
+                    'name': p.get('name'),
+                    'climate': p.get('climate'),
+                    'terrain': p.get('terrain'),
+                    'population': pop_val
+                }
+                self.results.append(planeta_dict)
+                
+            url = data.get('next')
+            
+        
+        
+    
